@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Restaurant Chefs - Welcome to Our Restaurant</title>
+	<style type="text/css">
+      body {
+          width: 800px;
+          margin: auto;
+          font-family: Arial, sans-serif;
+      }
+
+      h1 {
+          color: #333;
+      }
+	</style>
+</head>
+<body>
+<header>
+	<h1>Welcome to Our Restaurant</h1>
+</header>
+<main>
+	<h2>Choose a chef:</h2>
+	<th:form th:action="@{'/dish'}" th:method="POST">
+		<th:block th:each="chef: ${chefs}">
+			<th:input type="radio" th:name="id" th:value="${chef.id}"/>
+			Name: <th:span th:text="${chef.firstName}"></th:span>
+			Bio: <th:span th:text="${chef.bio}"></th:span>
+		</th:block>
+		<th:input type="submit" th:value="Submit"/>
+	</th:form>
+</main>
+</body>
+</html>

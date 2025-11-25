@@ -13,7 +13,6 @@ import java.util.List;
 public class DishServiceImp1 implements DishService {
     public DishRepository dishRepository;
 
-
     @Override
     public List<Dish> listDishes() {
         return dishRepository.findAll();
@@ -23,4 +22,35 @@ public class DishServiceImp1 implements DishService {
     public Dish findByDishId(String dishId) {
         return dishRepository.findByDishId(dishId);
     }
+
+    public Dish findById(Long id) {
+        return dishRepository.findById(id).isPresent() ? dishRepository.findById(id).get() : null;
+    }
+
+    public Dish create(String dishId, String name, String cuisine, int preparationTime) {
+
+        Dish exists = dishRepository.findByDishId(dishId);
+
+        if (exists == null) {
+            dishRepository.save(new Dish(dishId, name, cuisine, preparationTime));
+            return dishRepository.findByDishId(dishId);
+        }
+        return null;
+    }
+
+    public Dish update(Long id, String dishId, String name, String cuisine, int preparationTime) {
+        Dish exists = dishRepository.findByDishId(dishId);
+
+        if (exists == null) {
+            return null;
+        } else {
+            dishRepository.save(new Dish(dishId, name, cuisine, preparationTime));
+        }
+        return exists;
+    }
+
+    public void delete(Long id) {
+        dishRepository.deleteById(id);
+    }
+
 }

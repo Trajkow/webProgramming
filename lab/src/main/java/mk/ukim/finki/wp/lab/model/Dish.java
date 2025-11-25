@@ -6,10 +6,20 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@AllArgsConstructor
 public class Dish {
-    String dishId;
-    String name;
-    String cuisine;
-    int preparationTime;
+    private Long id;
+    private String dishId;
+    private String name;
+    private String cuisine;
+    private int preparationTime;
+
+    private static Long counter = 6L;
+
+    public Dish(String dishId, String name, String cuisine, int preparationTime) {
+        this.id = counter++;
+        this.dishId = dishId;
+        this.name = name;
+        this.cuisine = cuisine;
+        this.preparationTime = preparationTime;
+    }
 }
