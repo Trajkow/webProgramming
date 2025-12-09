@@ -16,17 +16,5 @@ public class DataHolder {
 
     @PostConstruct
     public void init() {
-        chefs.add(new Chef(1L, "name1", "lastName1", "blabla", null));
-        chefs.add(new Chef(2L, "name2", "lastName2", "blabla", null));
-        chefs.add(new Chef(3L, "name3", "lastName3", "blabla", null));
-        chefs.add(new Chef(4L, "name4", "lastName4", "blabla", null));
-        chefs.add(new Chef(5L, "name5", "lastName5", "blabla", null));
-
-        dishes.add(new Dish(1L, "dish1", "dish1", "cuisine", 10));
-        dishes.add(new Dish(2L, "dish2", "dish2", "cuisine", 10));
-        dishes.add(new Dish(3L, "dish3", "dish3", "cuisine", 10));
-        dishes.add(new Dish(4L, "dish4", "dish4", "cuisine", 10));
-        dishes.add(new Dish(5L, "dish5", "dish5", "cuisine", 10));
-
     }
 }
