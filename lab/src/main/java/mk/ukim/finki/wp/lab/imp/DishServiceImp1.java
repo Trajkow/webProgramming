@@ -7,6 +7,7 @@ import mk.ukim.finki.wp.lab.service.DishService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 @Service
@@ -24,29 +25,30 @@ public class DishServiceImp1 implements DishService {
     }
 
     public Dish findById(Long id) {
-        return dishRepository.findById(id).isPresent() ? dishRepository.findById(id).get() : null;
+        return dishRepository.findById(id).orElse(null);
     }
 
     public Dish create(String dishId, String name, String cuisine, int preparationTime) {
-
+        // ensure unique dishId
         Dish exists = dishRepository.findByDishId(dishId);
-
-        if (exists == null) {
-            dishRepository.save(new Dish(dishId, name, cuisine, preparationTime));
-            return dishRepository.findByDishId(dishId);
-        }
-        return null;
+        if (exists != null) return null;
+        Dish d = new Dish(dishId, name, cuisine, preparationTime);
+        return dishRepository.save(d);
     }
 
     public Dish update(Long id, String dishId, String name, String cuisine, int preparationTime) {
-        Dish exists = dishRepository.findByDishId(dishId);
-
-        if (exists == null) {
+        Dish toUpdate = findById(id);
+        if (toUpdate == null) return null;
+        // check if new dishId collides with another dish
+        Dish byDishId = dishRepository.findByDishId(dishId);
+        if (byDishId != null && !Objects.equals(byDishId.getId(), id)) {
             return null;
-        } else {
-            dishRepository.save(new Dish(dishId, name, cuisine, preparationTime));
         }
-        return exists;
+        toUpdate.setDishId(dishId);
+        toUpdate.setName(name);
+        toUpdate.setCuisine(cuisine);
+        toUpdate.setPreparationTime(preparationTime);
+        return dishRepository.save(toUpdate);
     }
 
     public void delete(Long id) {

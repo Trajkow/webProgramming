@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Dish Form</title>
+    <style>
+        body { width: 600px; margin: auto; font-family: Arial, sans-serif; }
+        form { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+        label { display: flex; flex-direction: column; font-weight: bold; }
+        input { padding: 8px; font-size: 14px; }
+        .actions { display: flex; gap: 10px; }
+        button, a.btn { padding: 8px 14px; border: none; background: #4CAF50; color: white; text-decoration: none; border-radius: 3px; cursor: pointer; }
+        a.btn.secondary { background: #6c757d; }
+    </style>
+    <script>
+        function setAction(form){
+            const id = document.getElementById('id').value;
+            if(id){
+                form.action = '/dishes/edit/' + id;
+            } else {
+                form.action = '/dishes/add';
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+<h1 th:text="${dish} == null ? 'Add Dish' : 'Edit Dish'"></h1>
+
+<form th:onsubmit="return setAction(this)" method="post">
+    <input type="hidden" id="id" th:value="${dish} != null ? ${dish.id} : ''"/>
+
+    <label>
+        Dish ID
+        <input name="dishId" required th:value="${dish} != null ? ${dish.dishId} : ''"/>
+    </label>
+    <label>
+        Name
+        <input name="name" required th:value="${dish} != null ? ${dish.name} : ''"/>
+    </label>
+    <label>
+        Cuisine
+        <input name="cuisine" required th:value="${dish} != null ? ${dish.cuisine} : ''"/>
+    </label>
+    <label>
+        Preparation Time (min)
+        <input type="number" name="preparationTime" min="0" required th:value="${dish} != null ? ${dish.preparationTime} : 0"/>
+    </label>
+
+    <div class="actions">
+        <button type="submit" th:text="${dish} == null ? 'Create' : 'Update'"></button>
+        <a class="btn secondary" th:href="@{/dishes}">Cancel</a>
+    </div>
+</form>
+
+</body>
+</html>

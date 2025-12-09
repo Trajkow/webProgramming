@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Dishes</title>
+    <style>
+        body { width: 900px; margin: auto; font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #f0f0f0; }
+        .topbar { margin-top: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .error { color: #b00020; }
+        a.btn, button.btn { padding: 6px 12px; background: #4CAF50; color: white; text-decoration: none; border: none; border-radius: 3px; cursor: pointer; }
+        a.btn.danger { background: #d9534f; }
+        a.btn.edit { background: #0275d8; }
+    </style>
+    <script>
+        function confirmDelete(url){
+            if(confirm('Delete this dish?')){ window.location.href = url; }
+        }
+    </script>
+</head>
+<body>
+<header class="topbar">
+    <h1>All Dishes</h1>
+    <a class="btn" th:href="@{/dishes/dish-form}">Add New Dish</a>
+    <div th:if="${hasError}" class="error" th:text="${error}"></div>
+    
+</header>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Dish ID</th>
+        <th>Name</th>
+        <th>Cuisine</th>
+        <th>Preparation Time (min)</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="d: ${dishes}">
+        <td th:text="${d.id}"></td>
+        <td th:text="${d.dishId}"></td>
+        <td th:text="${d.name}"></td>
+        <td th:text="${d.cuisine}"></td>
+        <td th:text="${d.preparationTime}"></td>
+        <td>
+            <a class="btn edit" th:href="@{'/dishes/dish-form/' + ${d.id}}">Edit</a>
+            <a class="btn danger" href="#" th:onclick="|confirmDelete('/dishes/delete/${d.id}')|">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
